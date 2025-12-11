@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 import { INVITES, SMART_SUGGESTIONS, UPCOMING_TRIPS } from "../data/mockTrips";
 import { Invite } from "../types/trips";
 
