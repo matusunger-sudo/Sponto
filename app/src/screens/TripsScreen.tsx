@@ -1,6 +1,7 @@
 // app/src/screens/TripsScreen.tsx
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
   FlatList,
@@ -12,7 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SMART_SUGGESTIONS, UPCOMING_TRIPS } from "../data/mockTrips";
-import { Trip } from "../src/types/trips";
+import { Trip } from "../types/trips";
 
 const LOCALE: "sk" | "en" = "sk";
 
@@ -84,7 +85,8 @@ function formatDateShort(iso: string) {
 
 type SegmentKey = "upcoming" | "past" | "ai";
 
-export default function TripsScreen({ navigation }: any) {
+export default function TripsScreen(_: any) {
+  const router = useRouter();
   const [segment, setSegment] = useState<SegmentKey>("upcoming");
   const [filterToday, setFilterToday] = useState(false);
   const [filterWeekend, setFilterWeekend] = useState(false);
@@ -122,7 +124,7 @@ export default function TripsScreen({ navigation }: any) {
         <View style={styles.headerRow}>
           <Text style={styles.title}>{S.title}</Text>
           <Pressable
-            onPress={() => navigation.navigate("Trips", { quickCreate: true })}
+            onPress={() => router.push({ pathname: "/trips", params: { quickCreate: true } as any })}
             style={({ pressed }) => [
               styles.createButton,
               pressed && { opacity: 0.9, transform: [{ scale: 0.97 }] },
@@ -185,7 +187,7 @@ export default function TripsScreen({ navigation }: any) {
               <Text style={styles.aiTitle}>{S.sectionAiTitle}</Text>
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Profile", { section: "preferences" })
+                  router.push({ pathname: "/profile", params: { section: "preferences" } as any })
                 }
               >
                 <Text style={styles.aiPrefs}>{S.editPreferences}</Text>
@@ -199,9 +201,9 @@ export default function TripsScreen({ navigation }: any) {
                 keyExtractor={(i) => i.id}
                 contentContainerStyle={{ paddingBottom: 20 }}
                 renderItem={({ item }) => (
-                  <Pressable
+                    <Pressable
                     onPress={() =>
-                      navigation.navigate("Trips", { preset: item.action?.preset })
+                      router.push({ pathname: "/trips", params: { preset: item.action?.preset } as any })
                     }
                     style={({ pressed }) => [
                       styles.aiCard,
@@ -242,9 +244,9 @@ export default function TripsScreen({ navigation }: any) {
                 contentContainerStyle={{ paddingBottom: 20 }}
                 renderItem={({ item }) => (
                   <TripRow
-                    trip={item}
-                    onPress={() => navigation.navigate("Trips", { id: item.id })}
-                  />
+                      trip={item}
+                      onPress={() => router.push({ pathname: "/trips", params: { id: item.id } as any })}
+                    />
                 )}
               />
             )}

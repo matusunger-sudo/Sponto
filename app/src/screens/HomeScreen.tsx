@@ -1,6 +1,7 @@
 // app/src/screens/HomeScreen.tsx
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import React, { useMemo } from "react";
 import {
   Image,
@@ -78,7 +79,8 @@ function formatDate(iso: string) {
 // neskôr nahradíš API volaním napr. /ai/suggestion
 const firstAiSuggestion = SMART_SUGGESTIONS[0];
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen(_: any) {
+  const router = useRouter();
   const nextTrip = UPCOMING_TRIPS[0];
   const invites = INVITES;
 
@@ -109,7 +111,7 @@ export default function HomeScreen({ navigation }: any) {
               <Text style={styles.heroSubtitle}>{S.heroSubtitle}</Text>
             </View>
             <Pressable
-              onPress={() => navigation.navigate("Inbox")}
+              onPress={() => router.push({ pathname: "/inbox" } as any)}
               style={({ pressed }) => [
                 styles.iconButton,
                 pressed && { opacity: 0.8 },
@@ -126,7 +128,7 @@ export default function HomeScreen({ navigation }: any) {
           {/* HLAVNÁ AKCIA – SPONTÁNNY TRIP */}
           <Pressable
             onPress={() =>
-              navigation.navigate("Trips", { quickCreate: true })
+              router.push({ pathname: "/trips", params: { quickCreate: true } as any })
             }
             style={({ pressed }) => [
               styles.primaryCard,
@@ -146,7 +148,7 @@ export default function HomeScreen({ navigation }: any) {
           <View style={styles.row}>
             <Pressable
               onPress={() =>
-                navigation.navigate("Trips", { ai: true, preset: firstAiSuggestion?.action?.preset })
+                router.push({ pathname: "/trips", params: { ai: true, preset: firstAiSuggestion?.action?.preset } as any })
               }
               style={({ pressed }) => [
                 styles.smallCard,
@@ -155,7 +157,7 @@ export default function HomeScreen({ navigation }: any) {
             >
               <View style={styles.smallIconCircle}>
                 <MaterialCommunityIcons
-                  name="sparkles"
+                  name={"sparkles" as any}
                   size={18}
                   color="#FACC15"
                 />
@@ -165,7 +167,7 @@ export default function HomeScreen({ navigation }: any) {
             </Pressable>
 
             <Pressable
-              onPress={() => navigation.navigate("Map")}
+              onPress={() => router.push({ pathname: "/map" } as any)}
               style={({ pressed }) => [
                 styles.smallCard,
                 pressed && { opacity: 0.9 },
@@ -182,16 +184,16 @@ export default function HomeScreen({ navigation }: any) {
           {/* NAJBLIZSI TRIP – JEDNA JEDNODUCHÁ KARTA */}
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{S.nextTrip}</Text>
-            <Pressable onPress={() => navigation.navigate("Trips")}>
+            <Pressable onPress={() => router.push({ pathname: "/trips" } as any)}> 
               <Text style={styles.sectionLink}>{S.upcomingViewAll}</Text>
             </Pressable>
           </View>
 
           {nextTrip ? (
             <Pressable
-              onPress={() =>
-                navigation.navigate("Trips", { id: nextTrip.id })
-              }
+                onPress={() =>
+                  router.push({ pathname: "/trips", params: { id: nextTrip.id } as any })
+                }
               style={({ pressed }) => [
                 styles.nextTripCard,
                 pressed && { opacity: 0.95 },
@@ -232,21 +234,21 @@ export default function HomeScreen({ navigation }: any) {
               label={S.moodChill}
               icon="moon-outline"
               onPress={() =>
-                navigation.navigate("Trips", { preset: { type: "chill" } })
+                router.push({ pathname: "/trips", params: { preset: { type: "chill" } } as any })
               }
             />
             <MoodChip
               label={S.moodFood}
               icon="restaurant-outline"
               onPress={() =>
-                navigation.navigate("Trips", { preset: { type: "food" } })
+                router.push({ pathname: "/trips", params: { preset: { type: "food" } } as any })
               }
             />
             <MoodChip
               label={S.moodNight}
               icon="car-outline"
               onPress={() =>
-                navigation.navigate("Trips", { preset: { type: "night" } })
+                router.push({ pathname: "/trips", params: { preset: { type: "night" } } as any })
               }
             />
           </View>
@@ -254,7 +256,7 @@ export default function HomeScreen({ navigation }: any) {
           {/* POZVÁNKY – MAX 2, ZBYTOK CEZ INBOX */}
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>{S.invitesTitle}</Text>
-            <Pressable onPress={() => navigation.navigate("Inbox")}>
+            <Pressable onPress={() => router.push({ pathname: "/inbox" } as any)}> 
               <Text style={styles.sectionLink}>Inbox</Text>
             </Pressable>
           </View>
