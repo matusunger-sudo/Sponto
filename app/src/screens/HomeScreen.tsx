@@ -19,7 +19,7 @@ import { Invite } from "../types/trips";
 
 // jednoduchá príprava na viac jazykov
 const LOCALE: "sk" | "en" = "sk";
-
+ 
 const STRINGS = {
   sk: {
     heroTitle: "Spontánne výjazdy",
